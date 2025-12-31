@@ -21,7 +21,7 @@ This file guides AI agents working on the `rbxsync` project. It serves as contex
 - `src/config.rs`: 
     - `Config`: Loads environment variables (`ROBLOX_API_KEY`).
     - `RbxSyncConfig`: Structs for parsing `rbxsync.yml` configuration.
-- `src/state.rs`: Manages `.rbxsync/state.yaml`. Tracks resource IDs and local icon hashes for idempotent updates.
+- `src/state.rs`: Manages `rbxsync-lock.yml`. Tracks resource IDs and local icon hashes for idempotent updates.
 - `src/commands.rs`: Core business logic for `run`, `publish`, and `export` commands.
 - `action.yml`: GitHub Action metadata.
 
@@ -33,7 +33,7 @@ This file guides AI agents working on the `rbxsync` project. It serves as contex
     - Match resources by **name** (case-sensitive).
     - Create if missing.
     - Update if exists (PATCH).
-    - **Icons**: Calculate SHA-256 of local file. Compare with stored hash in `.rbxsync/state.yaml`. Only upload if changed.
+    - **Icons**: Calculate SHA-256 of local file. Compare with stored hash in `rbxsync-lock.yml`. Only upload if changed.
 
 ### CLI Commands
 - `rbxsync run`: Syncs universe settings + assets (Game Passes, Products, Badges).
@@ -59,7 +59,9 @@ This file guides AI agents working on the `rbxsync` project. It serves as contex
 
 ## Environment Variables
 - `ROBLOX_API_KEY`: **Required**. Open Cloud API Key with permissions for Universe, Game Passes, Badges, Products, Assets, and Places.
-- `ROBLOX_UNIVERSE_ID`: **Required**. Target Universe ID.
+
+## Configuration
+- `universe.id`: **Required** in `rbxsync.yml`. The target Universe ID.
 
 ## Testing
 - **Manual Sync**: `cargo run -- run --dry-run` (Note: dry-run logic may be partial).
